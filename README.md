@@ -30,12 +30,14 @@ ESP32 Node 2 (Vibration + Soil Moisture + Light) → WiFi → Backend API → Da
 - **Database**: SQLite dengan Prisma ORM
 - **Authentication**: NextAuth.js
 - **API**: RESTful API untuk komunikasi dengan ESP32
+- **Runtime**: Node.js 18.17+ (Recommended: 20.x LTS or 22.x)
 
 ### Frontend
 - **Framework**: Next.js 15
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts untuk visualisasi data
 - **UI Components**: shadcn/ui
+- **Runtime**: Node.js 18.17+ (Recommended: 20.x LTS or 22.x)
 
 ### Hardware
 - **Microcontroller**: ESP32 Dev Module 30 Pin
@@ -49,8 +51,8 @@ ESP32 Node 2 (Vibration + Soil Moisture + Light) → WiFi → Backend API → Da
 ## Instalasi
 
 ### Prasyarat
-- Node.js 18+ 
-- npm atau yarn
+- Node.js 18.17+ (Recommended: Node.js 20.x LTS or 22.x)
+- npm 8.0+ 
 - Git
 
 ### Langkah-langkah Instalasi
