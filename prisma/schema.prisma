@@ -14,19 +14,71 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  password      String
+  role          Role     @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  devices       Device[]
+  
+  @@map("users")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Device {
+  id            String   @id @default(cuid())
+  name          String
+  location      String?
+  deviceType    DeviceType
+  deviceId      String   @unique // ESP32 unique identifier
+  isActive      Boolean  @default(true)
+  apiKey        String   @unique // API key for ESP32 authentication
+  thresholdMin  Float?   // Minimum threshold for alerts
+  thresholdMax  Float?   // Maximum threshold for alerts
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sensorData    SensorData[]
+  
+  @@map("devices")
+}
+
+model SensorData {
+  id            String   @id @default(cuid())
+  deviceId      String
+  sensorType    SensorType
+  value         Float
+  unit          String?
+  timestamp     DateTime @default(now())
+  
+  // Relations
+  device        Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  
+  @@map("sensor_data")
+  @@index([deviceId, timestamp])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum DeviceType {
+  ESP32_1 // DHT22 + VL53L0X
+  ESP32_2 // Vibration + Soil Moisture + Light
+}
+
+enum SensorType {
+  TEMPERATURE
+  HUMIDITY
+  WATER_LEVEL
+  VIBRATION
+  SOIL_MOISTURE
+  LIGHT
 }
